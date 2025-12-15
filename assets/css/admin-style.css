@@ -1,0 +1,584 @@
+/* ========================================
+   استایل‌های اصلی افزونه حسابداری زرگر
+   ======================================== */
+
+/* فونت‌های فارسی */
+@font-face {
+    font-family: 'Yekan';
+    src: url('../fonts/yekan/Yekan.woff2') format('woff2'),
+         url('../fonts/yekan/Yekan.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* تنظیمات کلی */
+.zargar-wrap {
+    font-family: 'Yekan', 'Tahoma', sans-serif;
+    direction: rtl;
+    text-align: right;
+    margin: 20px 20px 20px 0;
+}
+
+/* هدر */
+.zargar-header {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.zargar-header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #1e293b;
+    margin: 0 0 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.zargar-header h1 .dashicons {
+    color: #6366f1;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+.zargar-subtitle {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* گرید آماری */
+.zargar-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.zargar-stat-card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.zargar-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-icon .dashicons {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    color: #fff;
+}
+
+.stat-icon-products {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-icon-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.stat-icon-error {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.stat-icon-pending {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.stat-content h3 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 0 5px 0;
+    color: #1e293b;
+}
+
+.stat-content p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* محتوای اصلی */
+.zargar-main-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+}
+
+@media (max-width: 1200px) {
+    .zargar-main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* کارت‌ها */
+.zargar-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.zargar-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.zargar-card-header h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.zargar-card-header h2 .dashicons {
+    color: #6366f1;
+    font-size: 20px;
+}
+
+.zargar-card-body {
+    padding: 24px;
+}
+
+.zargar-card-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+/* وضعیت اتصال */
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.status-indicator::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+.connection-status.connected .status-indicator {
+    background: #10b981;
+}
+
+.connection-status.connected .status-indicator::before {
+    background: #10b981;
+}
+
+.connection-status.disconnected .status-indicator {
+    background: #ef4444;
+}
+
+.connection-status.disconnected .status-indicator::before {
+    background: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+.status-text strong {
+    display: block;
+    font-size: 16px;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.status-url {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* هشدارها */
+.zargar-alert {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.zargar-alert .dashicons {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.zargar-alert p {
+    margin: 0 0 12px 0;
+    flex-grow: 1;
+}
+
+.zargar-alert-warning {
+    background: #fef3c7;
+    border-right: 4px solid #f59e0b;
+    color: #92400e;
+}
+
+.zargar-alert-warning .dashicons {
+    color: #f59e0b;
+}
+
+.zargar-alert-error {
+    background: #fee2e2;
+    border-right: 4px solid #ef4444;
+    color: #991b1b;
+}
+
+.zargar-alert-success {
+    background: #d1fae5;
+    border-right: 4px solid #10b981;
+    color: #065f46;
+}
+
+/* دکمه‌های اکشن */
+.connection-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.connection-actions .button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* لیست فعالیت‌ها */
+.zargar-activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activity-item {
+    display: flex;
+    gap: 15px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    border-right: 3px solid #e2e8f0;
+}
+
+.activity-item.log-error {
+    border-right-color: #ef4444;
+}
+
+.activity-item.log-warning {
+    border-right-color: #f59e0b;
+}
+
+.activity-item.log-success {
+    border-right-color: #10b981;
+}
+
+.activity-item.log-info {
+    border-right-color: #3b82f6;
+}
+
+.activity-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.activity-icon .dashicons {
+    color: #6366f1;
+}
+
+.activity-content {
+    flex-grow: 1;
+}
+
+.activity-message {
+    margin: 0 0 6px 0;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.activity-time {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.no-activity {
+    text-align: center;
+    color: #94a3b8;
+    padding: 40px 20px;
+}
+
+/* لینک‌های سریع */
+.quick-links,
+.help-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quick-link,
+.help-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    color: #475569;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.quick-link:hover,
+.help-link:hover {
+    background: #e0e7ff;
+    color: #6366f1;
+    border-color: #c7d2fe;
+    transform: translateX(-2px);
+}
+
+.quick-link .dashicons,
+.help-link .dashicons {
+    color: #6366f1;
+    font-size: 18px;
+}
+
+/* اطلاعات نسخه */
+.version-info p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.version-info p:last-child {
+    margin-bottom: 0;
+}
+
+.version-info strong {
+    color: #1e293b;
+}
+
+/* دکمه‌ها */
+.button-primary {
+    background: #6366f1 !important;
+    border-color: #6366f1 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.button-primary:hover {
+    background: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+}
+
+/* ریسپانسیو */
+@media (max-width: 782px) {
+    .zargar-wrap {
+        margin: 10px 10px 10px 0;
+    }
+    
+    .zargar-header {
+        padding: 20px;
+    }
+    
+    .zargar-header h1 {
+        font-size: 22px;
+    }
+    
+    .zargar-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .zargar-card-body {
+        padding: 16px;
+    }
+    
+    .connection-actions {
+        flex-direction: column;
+    }
+    
+    .connection-actions .button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* انیمیشن لودینگ */
+.zargar-loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(99, 102, 241, 0.1);
+    border-radius: 50%;
+    border-top-color: #6366f1;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* تیبل‌ها */
+.zargar-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.zargar-table th,
+.zargar-table td {
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.zargar-table th {
+    background: #f8fafc;
+    font-weight: bold;
+    color: #475569;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.zargar-table tr:hover {
+    background: #f8fafc;
+}
+
+/* بج‌ها */
+.zargar-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.zargar-badge-success {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.zargar-badge-error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.zargar-badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.zargar-badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
+/* نوتیفیکیشن */
+.zargar-notification {
+    position: fixed;
+    top: 32px;
+    left: 20px;
+    background: #fff;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 999999;
+    min-width: 300px;
+    transform: translateX(-400px);
+    transition: transform 0.3s ease;
+}
+
+.zargar-notification.show {
+    transform: translateX(0);
+}
+
+.zargar-notification-success {
+    border-right: 4px solid #10b981;
+}
+
+.zargar-notification-error {
+    border-right: 4px solid #ef4444;
+}
+
+.zargar-notification-warning {
+    border-right: 4px solid #f59e0b;
+}
+
+.notification-message {
+    flex-grow: 1;
+    color: #1e293b;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-close:hover {
+    color: #1e293b;
+}
