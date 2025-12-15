@@ -1,0 +1,19 @@
+{
+    "name": "seenday/zargar-accounting",
+    "description": "WordPress plugin for Zargar Accounting integration",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": "^8.1",
+        "monolog/monolog": "^2.9",
+        "jenssegers/blade": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ZargarAccounting\\": "includes/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

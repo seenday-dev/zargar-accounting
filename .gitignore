@@ -1,0 +1,28 @@
+# Composer
+/vendor/
+composer.lock
+
+# WordPress
+*.log
+.htaccess
+
+# Cache
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/logs/*
+!/storage/logs/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+package-lock.json
