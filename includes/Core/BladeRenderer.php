@@ -19,12 +19,24 @@ class BladeRenderer {
     private $blade;
     
     private function __construct() {
-        $views_path = ZARGAR_ACCOUNTING_PLUGIN_DIR . 'templates';
-        $cache_path = ZARGAR_ACCOUNTING_PLUGIN_DIR . 'storage/cache';
+        // Determine plugin directory
+        if (defined('ZARGAR_ACCOUNTING_PLUGIN_DIR')) {
+            $plugin_dir = ZARGAR_ACCOUNTING_PLUGIN_DIR;
+        } else {
+            // Fallback: calculate from current file location
+            $plugin_dir = dirname(dirname(__DIR__)) . '/';
+        }
+        
+        $views_path = $plugin_dir . 'templates';
+        $cache_path = $plugin_dir . 'storage/cache';
         
         // Ensure cache directory exists
         if (!file_exists($cache_path)) {
-            wp_mkdir_p($cache_path);
+            if (function_exists('wp_mkdir_p')) {
+                wp_mkdir_p($cache_path);
+            } else {
+                mkdir($cache_path, 0755, true);
+            }
         }
         
         $this->blade = new Blade($views_path, $cache_path);

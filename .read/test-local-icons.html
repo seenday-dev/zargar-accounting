@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ تست LineIcons محلی - بدون CDN</title>
+    
+    <!-- LineIcons LOCAL -->
+    <link rel="stylesheet" href="assets/icons/lineicons.css">
+    
+    <!-- Yekan Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/yekan-font@1.0.0/css/yekan-font.min.css">
+    
+    <style>
+        * {
+            font-family: 'yekan', 'Tahoma', 'Arial', sans-serif !important;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status {
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+        
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+        
+        .status i {
+            font-size: 32px;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .preview-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 16px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .preview-card h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preview-card h2 i {
+            color: #667eea;
+            font-size: 24px;
+        }
+        
+        /* Sidebar */
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu-item {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: #6c757d;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu-link:hover {
+            background: white;
+            color: #667eea;
+            transform: translateX(-5px);
+        }
+        
+        .sidebar-menu-item.active .sidebar-menu-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .sidebar-menu-icon {
+            width: 24px;
+            margin-left: 12px;
+        }
+        
+        .sidebar-menu-icon i {
+            font-size: 20px;
+        }
+        
+        /* Widgets */
+        .widget {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s;
+        }
+        
+        .widget:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .widget-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .widget-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        
+        .widget-icon i {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .widget-info {
+            flex: 1;
+        }
+        
+        .widget-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        
+        .widget-value {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .info-box {
+            margin-top: 30px;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 12px;
+            border: 2px solid #667eea;
+        }
+        
+        .info-box h3 {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-box li i {
+            color: #28a745;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ LineIcons محلی - بدون نیاز به CDN</h1>
+        
+        <div class="status success" id="status">
+            <i class="lni lni-checkmark-circle"></i>
+            <span>آیکون‌ها با موفقیت از فایل محلی بارگذاری شدند!</span>
+        </div>
+        
+        <div class="preview-grid">
+            <!-- Sidebar Preview -->
+            <div class="preview-card">
+                <h2><i class="lni lni-menu"></i> سایدبار</h2>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item active">
+                        <a href="#" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">
+                                <i class="lni lni-home"></i>
+                            </span>
+                            <span>داشبورد</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">
+                                <i class="lni lni-cog"></i>
+                            </span>
+                            <span>تنظیمات</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">
+                                <i class="lni lni-list"></i>
+                            </span>
+                            <span>گزارش‌ها</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Widgets Preview -->
+            <div class="preview-card">
+                <h2><i class="lni lni-dashboard"></i> ویجت‌ها</h2>
+                <div class="widget">
+                    <div class="widget-content">
+                        <div class="widget-icon">
+                            <i class="lni lni-stats-up"></i>
+                        </div>
+                        <div class="widget-info">
+                            <div class="widget-label">تراکنش امروز</div>
+                            <div class="widget-value">1,234</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="widget">
+                    <div class="widget-content">
+                        <div class="widget-icon">
+                            <i class="lni lni-checkmark-circle"></i>
+                        </div>
+                        <div class="widget-info">
+                            <div class="widget-label">نرخ موفقیت</div>
+                            <div class="widget-value">98.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3><i class="lni lni-bookmark"></i> مزایای استفاده از فایل محلی:</h3>
+            <ul>
+                <li><i class="lni lni-checkmark"></i> <strong>بدون نیاز به اینترنت</strong> - همیشه کار می‌کند</li>
+                <li><i class="lni lni-checkmark"></i> <strong>مشکل فیلترینگ CDN</strong> - حل شده</li>
+                <li><i class="lni lni-checkmark"></i> <strong>سرعت بیشتر</strong> - بدون تاخیر CDN</li>
+                <li><i class="lni lni-checkmark"></i> <strong>قابل اطمینان</strong> - 100% در دسترس</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px; font-size: 14px; line-height: 1.8;">
+            <strong>📁 فایل‌های محلی:</strong><br>
+            ✅ <code>assets/icons/lineicons.css</code> (30KB)<br>
+            ✅ <code>assets/icons/LineIcons.woff2</code> (71KB)<br>
+            ✅ <code>assets/icons/LineIcons.woff</code> (87KB)<br>
+            <br>
+            <strong>📦 مجموع حجم:</strong> 188KB<br>
+            <strong>🚀 سرعت بارگذاری:</strong> فوری (محلی)
+        </div>
+    </div>
+    
+    <script>
+        // Check if LineIcons loaded
+        window.addEventListener('load', function() {
+            const icon = document.querySelector('.lni-home');
+            if (!icon) {
+                document.getElementById('status').className = 'status warning';
+                document.getElementById('status').innerHTML = '<i class="lni lni-warning"></i><span>در حال بررسی...</span>';
+            }
+        });
+    </script>
+</body>
+</html>

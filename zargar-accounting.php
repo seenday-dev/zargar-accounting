@@ -30,107 +30,28 @@ if (file_exists(ZARGAR_ACCOUNTING_PLUGIN_DIR . 'vendor/autoload.php')) {
 
 // Initialize the plugin
 function zargar_accounting_init() {
-    // Load logger
-    $logger = ZargarAccounting\Logger\Logger::getInstance();
+    // Initialize Monolog Manager
+    $logger = ZargarAccounting\Logger\MonologManager::getInstance();
     
-    // Load Blade renderer
+    // Initialize Blade Renderer
     $blade = ZargarAccounting\Core\BladeRenderer::getInstance();
     
-    // Add admin menu
-    add_action('admin_menu', 'zargar_accounting_admin_menu');
+    // Initialize Admin Managers
+    $menu_manager = ZargarAccounting\Admin\MenuManager::getInstance();
+    $menu_manager->registerHooks();
+    
+    $assets_manager = ZargarAccounting\Admin\AssetsManager::getInstance();
+    $assets_manager->registerHooks();
+    
+    // Initialize AJAX handlers
+    $logger_ajax = ZargarAccounting\Logger\LoggerAjax::getInstance();
+    $logger_ajax->registerHooks();
     
     // Log plugin initialization
     $logger->info('Zargar Accounting plugin initialized');
 }
 
 add_action('plugins_loaded', 'zargar_accounting_init');
-
-// Add admin menu
-function zargar_accounting_admin_menu() {
-    add_menu_page(
-        __('حسابداری زرگر', 'zargar-accounting'),
-        __('حسابداری زرگر', 'zargar-accounting'),
-        'manage_options',
-        'zargar-accounting',
-        'zargar_accounting_render_dashboard',
-        'dashicons-calculator',
-        30
-    );
-    
-    add_submenu_page(
-        'zargar-accounting',
-        __('داشبورد', 'zargar-accounting'),
-        __('داشبورد', 'zargar-accounting'),
-        'manage_options',
-        'zargar-accounting',
-        'zargar_accounting_render_dashboard'
-    );
-    
-    add_submenu_page(
-        'zargar-accounting',
-        __('همگام‌سازی', 'zargar-accounting'),
-        __('همگام‌سازی', 'zargar-accounting'),
-        'manage_options',
-        'zargar-accounting-sync',
-        'zargar_accounting_render_sync'
-    );
-    
-    add_submenu_page(
-        'zargar-accounting',
-        __('گزارش‌ها', 'zargar-accounting'),
-        __('گزارش‌ها', 'zargar-accounting'),
-        'manage_options',
-        'zargar-accounting-logs',
-        'zargar_accounting_render_logs'
-    );
-}
-
-// Render dashboard page
-function zargar_accounting_render_dashboard() {
-    $blade = ZargarAccounting\Core\BladeRenderer::getInstance();
-    echo $blade->render('admin.dashboard', [
-        'title' => 'داشبورد'
-    ]);
-}
-
-// Render sync page
-function zargar_accounting_render_sync() {
-    $blade = ZargarAccounting\Core\BladeRenderer::getInstance();
-    echo $blade->render('admin.sync-status', [
-        'title' => 'همگام‌سازی',
-        'sync_progress' => 0,
-        'sync_message' => 'آماده برای شروع',
-        'last_sync' => 'هرگز',
-        'success_count' => 0,
-        'failed_count' => 0,
-        'last_error' => 'ندارد'
-    ]);
-}
-
-// Render logs page
-function zargar_accounting_render_logs() {
-    $logger = ZargarAccounting\Logger\Logger::getInstance();
-    $log_entries = $logger->getRecentLogs(50);
-    
-    // Parse log entries
-    $logs = [];
-    foreach ($log_entries as $entry) {
-        if (preg_match('/\[(.*?)\] \[(.*?)\] \[User: (.*?)\] (.*)/', $entry, $matches)) {
-            $logs[] = [
-                'time' => $matches[1],
-                'level' => $matches[2],
-                'user' => $matches[3],
-                'message' => $matches[4]
-            ];
-        }
-    }
-    
-    $blade = ZargarAccounting\Core\BladeRenderer::getInstance();
-    echo $blade->render('admin.logs', [
-        'title' => 'گزارش‌ها',
-        'logs' => $logs
-    ]);
-}
 
 // Activation hook
 register_activation_hook(__FILE__, 'zargar_accounting_activate');

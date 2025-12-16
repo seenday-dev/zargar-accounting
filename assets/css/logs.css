@@ -1,0 +1,204 @@
+/* ============================================
+   Logs Page - Professional Design
+   ============================================ */
+
+.logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.logs-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+}
+
+.logs-actions {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+}
+
+/* Log Tabs */
+.log-tabs {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0;
+    overflow-x: auto;
+}
+
+.log-tab {
+    padding: var(--space-md) var(--space-lg);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    position: relative;
+}
+
+.log-tab:hover {
+    color: var(--color-primary);
+    background: var(--color-hover);
+}
+
+.log-tab.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.log-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--space-xs);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    margin-right: var(--space-sm);
+}
+
+.log-tab.active .log-tab-count {
+    background: var(--color-primary);
+    color: var(--color-background);
+}
+
+/* Log Container */
+.logs-container {
+    background: var(--color-background);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logs-table thead {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.logs-table th {
+    padding: var(--space-md) var(--space-lg);
+    text-align: right;
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.logs-table td {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--color-border-light);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.logs-table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.logs-table tbody tr:hover {
+    background: var(--color-hover);
+}
+
+.logs-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Log Badge */
+.log-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.log-badge-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--color-error);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.log-badge-warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.log-badge-info {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--color-info);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.log-badge-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-text-tertiary);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    opacity: 0.2;
+    margin-bottom: var(--space-lg);
+}
+
+.empty-state-text {
+    font-size: var(--font-size-base);
+}
+
+/* Loading State */
+.log-loading {
+    padding: var(--space-2xl);
+    text-align: center;
+    color: var(--color-text-secondary);
+}
+
+.log-loading-spinner {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Log Filters */
+.log-filters {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.log-filter-select {
+    min-width: 150px;
+}

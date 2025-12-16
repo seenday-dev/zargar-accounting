@@ -1,0 +1,68 @@
+/*--------------------------------
+Lineicons - Local Version
+Fixed for local usage - Only WOFF/WOFF2
+-------------------------------- */
+
+@font-face {
+  font-family: 'LineIcons';
+  src: url('LineIcons.woff2') format('woff2'),
+       url('LineIcons.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base class */
+.lni {
+  display: inline-block;
+  font-family: 'LineIcons' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sizes */
+.lni-sm { font-size: 0.8em; }
+.lni-lg { font-size: 1.2em; }
+.lni-16 { font-size: 16px; }
+.lni-32 { font-size: 32px; }
+
+/* Animation */
+.lni-is-spinning {
+  animation: lni-spin 2s infinite linear;
+}
+
+@keyframes lni-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Icons */
+.lni-home::before { content: "\ea81"; }
+.lni-cog::before { content: "\ea30"; }
+.lni-list::before { content: "\ea9c"; }
+.lni-stats-up::before { content: "\eb17"; }
+.lni-checkmark-circle::before { content: "\ea29"; }
+.lni-reload::before { content: "\eae5"; }
+.lni-trash-can::before { content: "\eb34"; }
+.lni-plus::before { content: "\eacb"; }
+.lni-pencil::before { content: "\eac2"; }
+.lni-search::before { content: "\eaec"; }
+.lni-download::before { content: "\ea4e"; }
+.lni-upload::before { content: "\eb3a"; }
+.lni-menu::before { content: "\eaa8"; }
+.lni-dashboard::before { content: "\ea43"; }
+.lni-eye::before { content: "\ea5b"; }
+.lni-gallery::before { content: "\ea6a"; }
+.lni-heart-filled::before { content: "\ea79"; }
+.lni-rocket::before { content: "\eae8"; }
+.lni-brush::before { content: "\ea18"; }
+.lni-layout::before { content: "\ea97"; }
+.lni-infinite::before { content: "\ea88"; }
+.lni-bookmark::before { content: "\ea0e"; }
+.lni-checkmark::before { content: "\ea28"; }
+.lni-warning::before { content: "\eb41"; }

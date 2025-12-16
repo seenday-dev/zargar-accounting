@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تست آیکون‌ها در سرور</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 40px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .url-test {
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            word-break: break-all;
+        }
+        .success { border-color: #28a745; background: #d4edda; }
+        .error { border-color: #dc3545; background: #f8d7da; }
+        .icon-display {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 تست فایل‌های آیکون در سرور</h1>
+    
+    <div class="test-box">
+        <h2>مرحله 1: تست دسترسی به CSS</h2>
+        <p>URL: <code>https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/lineicons.css</code></p>
+        <button onclick="testCSS()">تست کن</button>
+        <div id="css-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>مرحله 2: تست دسترسی به فونت‌ها</h2>
+        <p>WOFF2: <code>https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/LineIcons.woff2</code></p>
+        <p>WOFF: <code>https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/LineIcons.woff</code></p>
+        <button onclick="testFonts()">تست کن</button>
+        <div id="font-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>مرحله 3: تست نمایش آیکون</h2>
+        <link rel="stylesheet" href="https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/lineicons.css">
+        <div class="icon-display">
+            <i class="lni lni-home"></i>
+            <i class="lni lni-cog"></i>
+            <i class="lni lni-list"></i>
+        </div>
+        <div id="icon-result"></div>
+    </div>
+
+    <script>
+        function testCSS() {
+            const url = 'https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/lineicons.css';
+            const result = document.getElementById('css-result');
+            result.innerHTML = '<p>⏳ در حال بررسی...</p>';
+            
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('HTTP ' + response.status);
+                })
+                .then(text => {
+                    const hasLineIcons = text.includes('LineIcons');
+                    const hasFontFace = text.includes('@font-face');
+                    const hasWoff2 = text.includes('.woff2');
+                    
+                    let msg = '<div class="url-test success">';
+                    msg += '<strong>✅ فایل CSS لود شد!</strong><br>';
+                    msg += 'حجم: ' + (text.length / 1024).toFixed(2) + ' KB<br>';
+                    msg += '@font-face: ' + (hasFontFace ? '✅' : '❌') + '<br>';
+                    msg += 'LineIcons: ' + (hasLineIcons ? '✅' : '❌') + '<br>';
+                    msg += 'woff2 reference: ' + (hasWoff2 ? '✅' : '❌');
+                    msg += '</div>';
+                    
+                    if (text.includes('.eot') || text.includes('.ttf') || text.includes('.svg')) {
+                        msg += '<div class="url-test error">';
+                        msg += '⚠️ <strong>هشدار:</strong> فایل CSS هنوز به فرمت‌های ناموجود (eot/ttf/svg) اشاره می‌کند!<br>';
+                        msg += 'باید فایل lineicons.css را با نسخه جدید جایگزین کنید.';
+                        msg += '</div>';
+                    }
+                    
+                    result.innerHTML = msg;
+                })
+                .catch(error => {
+                    result.innerHTML = '<div class="url-test error">❌ خطا: ' + error.message + '</div>';
+                });
+        }
+
+        function testFonts() {
+            const fonts = [
+                'https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/LineIcons.woff2',
+                'https://sand.arista.gold/wp-content/plugins/zargar-accounting/assets/icons/LineIcons.woff'
+            ];
+            
+            const result = document.getElementById('font-result');
+            result.innerHTML = '<p>⏳ در حال بررسی...</p>';
+            
+            Promise.all(fonts.map(url => 
+                fetch(url, { method: 'HEAD' })
+                    .then(r => ({ url, ok: r.ok, status: r.status, size: r.headers.get('content-length') }))
+            )).then(results => {
+                let msg = '';
+                results.forEach(r => {
+                    const className = r.ok ? 'success' : 'error';
+                    const icon = r.ok ? '✅' : '❌';
+                    const sizeMB = r.size ? (r.size / 1024).toFixed(2) + ' KB' : 'نامشخص';
+                    msg += '<div class="url-test ' + className + '">';
+                    msg += icon + ' <strong>' + r.url.split('/').pop() + '</strong><br>';
+                    msg += 'Status: ' + r.status + '<br>';
+                    msg += 'حجم: ' + sizeMB;
+                    msg += '</div>';
+                });
+                result.innerHTML = msg;
+            });
+        }
+
+        // Auto test icons after load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const icon = document.querySelector('.lni-home');
+                if (!icon) return;
+                
+                const computed = window.getComputedStyle(icon, '::before');
+                const content = computed.content;
+                const fontFamily = computed.fontFamily;
+                const result = document.getElementById('icon-result');
+                
+                if (content && content !== 'none' && content !== '""') {
+                    result.innerHTML = '<div class="url-test success">✅ آیکون‌ها کار می‌کنند!<br>Font: ' + fontFamily + '<br>Content: ' + content + '</div>';
+                } else {
+                    result.innerHTML = '<div class="url-test error">❌ آیکون‌ها نمایش داده نمی‌شوند!<br>احتمالاً فایل CSS قدیمی است یا فونت‌ها لود نشده‌اند.</div>';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

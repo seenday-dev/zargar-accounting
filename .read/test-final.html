@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تست نهایی</title>
+    <link rel="stylesheet" href="assets/icons/lineicons-fixed.css">
+    <style>
+        body {
+            padding: 50px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .icon-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            margin: 10px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .icon-box i {
+            font-size: 40px;
+            color: white;
+        }
+        .status {
+            padding: 20px;
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            margin-top: 30px;
+            color: #155724;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 تست نهایی آیکون‌ها</h1>
+        
+        <div style="text-align: center;">
+            <div class="icon-box">
+                <i class="lni lni-home"></i>
+            </div>
+            <div class="icon-box">
+                <i class="lni lni-cog"></i>
+            </div>
+            <div class="icon-box">
+                <i class="lni lni-list"></i>
+            </div>
+            <div class="icon-box">
+                <i class="lni lni-stats-up"></i>
+            </div>
+            <div class="icon-box">
+                <i class="lni lni-checkmark-circle"></i>
+            </div>
+            <div class="icon-box">
+                <i class="lni lni-reload"></i>
+            </div>
+        </div>
+        
+        <div class="status" id="status">
+            ⏳ در حال بررسی...
+        </div>
+    </div>
+    
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const icon = document.querySelector('.lni-home');
+                const computed = window.getComputedStyle(icon, '::before');
+                const fontFamily = computed.fontFamily;
+                const content = computed.content;
+                
+                const status = document.getElementById('status');
+                
+                if (content && content !== 'none' && content !== '""') {
+                    status.style.background = '#d4edda';
+                    status.style.borderColor = '#28a745';
+                    status.style.color = '#155724';
+                    status.innerHTML = '✅ آیکون‌ها با موفقیت بارگذاری شدند!<br>Font Family: ' + fontFamily + '<br>Content: ' + content;
+                } else {
+                    status.style.background = '#f8d7da';
+                    status.style.borderColor = '#dc3545';
+                    status.style.color = '#721c24';
+                    status.innerHTML = '❌ آیکون‌ها بارگذاری نشدند!<br>Font Family: ' + fontFamily + '<br>Content: ' + content;
+                }
+                
+                console.log('Font check:', {
+                    fontFamily,
+                    content,
+                    fontSize: computed.fontSize,
+                    display: computed.display
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

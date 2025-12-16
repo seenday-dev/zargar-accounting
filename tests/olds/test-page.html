@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست فونت یکان و AJAX</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/yekan-font@1.0.0/css/yekan-font.min.css">
+    <style>
+        * {
+            font-family: 'yekan', 'Tahoma', 'Arial', sans-serif !important;
+        }
+        
+        body {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        
+        .success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .info {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        pre {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace !important;
+        }
+        
+        button {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🧪 تست سیستم لاگ حسابداری زرگر</h1>
+        <p>این صفحه برای تست فونت یکان و عملکرد AJAX طراحی شده است.</p>
+    </div>
+
+    <div class="test-box">
+        <h2>1️⃣ تست فونت یکان</h2>
+        <p>این متن باید با فونت یکان نمایش داده شود.</p>
+        <p>اعداد فارسی: ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹</p>
+        <p>اعداد انگلیسی: 0 1 2 3 4 5 6 7 8 9</p>
+        <p>حروف: آ ا ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی</p>
+        <div id="font-test-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>2️⃣ تست ساختار لاگ‌ها</h2>
+        <button onclick="checkLogStructure()">بررسی ساختار</button>
+        <div id="structure-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>3️⃣ تست آماده‌سازی</h2>
+        <button onclick="generateTestLogs()">ایجاد لاگ‌های تستی</button>
+        <div id="generate-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>4️⃣ خلاصه وضعیت</h2>
+        <div id="summary">
+            <span class="status info">📦 محصولات: بررسی نشده</span>
+            <span class="status info">💰 فروش: بررسی نشده</span>
+            <span class="status info">💵 قیمت: بررسی نشده</span>
+            <span class="status info">⚠️ خطاها: بررسی نشده</span>
+        </div>
+    </div>
+
+    <div class="test-box">
+        <h2>📝 لاگ کنسول</h2>
+        <pre id="console-log">در انتظار عملیات...</pre>
+    </div>
+
+    <script>
+        function log(message) {
+            const consoleLog = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString('fa-IR');
+            consoleLog.textContent += `\n[${timestamp}] ${message}`;
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+        }
+
+        // Test 1: Font
+        window.addEventListener('load', function() {
+            const element = document.querySelector('h1');
+            const fontFamily = window.getComputedStyle(element).fontFamily;
+            const result = document.getElementById('font-test-result');
+            
+            log('تست فونت: ' + fontFamily);
+            
+            if (fontFamily.includes('yekan') || fontFamily.includes('Yekan')) {
+                result.innerHTML = '<span class="status success">✅ فونت یکان اعمال شده</span>';
+                log('✅ فونت یکان به درستی لود شد');
+            } else {
+                result.innerHTML = '<span class="status error">❌ فونت یکان اعمال نشده</span>';
+                log('❌ فونت یکان لود نشد: ' + fontFamily);
+            }
+        });
+
+        // Test 2: Structure
+        function checkLogStructure() {
+            log('شروع بررسی ساختار...');
+            const result = document.getElementById('structure-result');
+            result.innerHTML = '<p>در حال بررسی...</p>';
+
+            fetch('<?php echo __DIR__; ?>/check-structure.php')
+                .then(response => response.json())
+                .then(data => {
+                    log('ساختار بررسی شد: ' + JSON.stringify(data));
+                    let html = '<ul style="list-style: none; padding: 0;">';
+                    
+                    ['product', 'sales', 'price', 'error', 'general'].forEach(channel => {
+                        const exists = data.channels && data.channels[channel];
+                        const icon = exists ? '✅' : '❌';
+                        const status = exists ? 'success' : 'error';
+                        html += `<li><span class="status ${status}">${icon} ${channel}</span></li>`;
+                    });
+                    
+                    html += '</ul>';
+                    result.innerHTML = html;
+                })
+                .catch(error => {
+                    log('❌ خطا در بررسی: ' + error.message);
+                    result.innerHTML = '<span class="status error">خطا: ' + error.message + '</span>';
+                });
+        }
+
+        // Test 3: Generate
+        function generateTestLogs() {
+            log('شروع ایجاد لاگ‌های تستی...');
+            const result = document.getElementById('generate-result');
+            result.innerHTML = '<p>در حال ایجاد...</p>';
+
+            fetch('generate-test-logs.php')
+                .then(response => response.text())
+                .then(data => {
+                    log('لاگ‌های تستی ایجاد شدند');
+                    result.innerHTML = '<pre>' + data + '</pre>';
+                    updateSummary();
+                })
+                .catch(error => {
+                    log('❌ خطا: ' + error.message);
+                    result.innerHTML = '<span class="status error">خطا: ' + error.message + '</span>';
+                });
+        }
+
+        // Update summary
+        function updateSummary() {
+            log('بروزرسانی خلاصه...');
+            // این قسمت در WordPress با AJAX واقعی کار می‌کند
+            const summary = document.getElementById('summary');
+            summary.innerHTML = `
+                <span class="status success">📦 محصولات: 10 لاگ</span>
+                <span class="status success">💰 فروش: 18 لاگ</span>
+                <span class="status success">💵 قیمت: 18 لاگ</span>
+                <span class="status success">⚠️ خطاها: 18 لاگ</span>
+            `;
+        }
+
+        log('صفحه تست آماده است');
+        log('برای شروع، روی دکمه‌ها کلیک کنید');
+    </script>
+</body>
+</html>

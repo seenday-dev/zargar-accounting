@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست آیکون‌ها - بعد از رفع مشکل</title>
+    <link rel="stylesheet" href="assets/icons/lineicons.css">
+    <style>
+        @import url('https://cdn.jsdelivr.net/npm/yekan-font@1.0.0/css/yekan-font.min.css');
+        
+        body {
+            font-family: 'yekan', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            direction: rtl;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .icon-test {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        .icon-test i {
+            font-size: 24px;
+            color: #000;
+        }
+        
+        .icon-test span {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .success {
+            color: #10B981 !important;
+        }
+        
+        .error {
+            color: #EF4444 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎯 تست آیکون‌ها - بعد از رفع مشکل</h1>
+        
+        <div class="icon-test">
+            <i class="lni lni-home"></i>
+            <span>lni-home - آیکون خانه</span>
+        </div>
+        
+        <div class="icon-test">
+            <i class="lni lni-cog"></i>
+            <span>lni-cog - آیکون تنظیمات</span>
+        </div>
+        
+        <div class="icon-test">
+            <i class="lni lni-list"></i>
+            <span>lni-list - آیکون لیست</span>
+        </div>
+        
+        <div class="icon-test">
+            <i class="lni lni-stats-up"></i>
+            <span>lni-stats-up - آیکون آمار</span>
+        </div>
+        
+        <div class="icon-test">
+            <i class="lni lni-checkmark-circle"></i>
+            <span>lni-checkmark-circle - آیکون تایید</span>
+        </div>
+        
+        <div class="icon-test">
+            <i class="lni lni-reload"></i>
+            <span>lni-reload - آیکون رفرش</span>
+        </div>
+        
+        <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+        
+        <h2 style="margin-bottom: 20px;">📋 بررسی فونت</h2>
+        
+        <div style="padding: 15px; background: #f0f0f0; border-radius: 4px;">
+            <p style="margin-bottom: 10px;"><strong>فونت لود شده:</strong></p>
+            <code id="fontCheck" style="display: block; padding: 10px; background: white; border-radius: 3px;">در حال بررسی...</code>
+        </div>
+    </div>
+    
+    <script>
+        // بررسی فونت لود شده
+        setTimeout(() => {
+            const testElement = document.querySelector('.lni');
+            const computedStyle = window.getComputedStyle(testElement);
+            const fontFamily = computedStyle.fontFamily;
+            
+            const fontCheckElement = document.getElementById('fontCheck');
+            fontCheckElement.textContent = fontFamily;
+            
+            if (fontFamily.includes('LineIcons')) {
+                fontCheckElement.style.color = '#10B981';
+                fontCheckElement.style.fontWeight = 'bold';
+            } else {
+                fontCheckElement.style.color = '#EF4444';
+                fontCheckElement.style.fontWeight = 'bold';
+            }
+        }, 500);
+    </script>
+</body>
+</html>

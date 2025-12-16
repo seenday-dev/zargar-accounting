@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مقایسه CSS</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .test-box { background: white; padding: 30px; margin: 20px 0; border-radius: 10px; }
+        .icon-display { font-size: 48px; margin: 20px 0; }
+        .result { padding: 15px; margin-top: 20px; border-radius: 5px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">تست مقایسه CSS</h1>
+
+    <div class="test-box">
+        <h2>✅ lineicons.css (جدید)</h2>
+        <link rel="stylesheet" href="assets/icons/lineicons.css">
+        <div class="icon-display">
+            <i class="lni lni-home"></i>
+            <i class="lni lni-cog"></i>
+            <i class="lni lni-list"></i>
+        </div>
+        <div class="result" id="r1">⏳ بررسی...</div>
+        <script>
+            setTimeout(() => {
+                const icon = document.querySelector('.lni-home');
+                const computed = window.getComputedStyle(icon, '::before');
+                const result = document.getElementById('r1');
+                if (computed.content && computed.content !== 'none') {
+                    result.className = 'result success';
+                    result.textContent = '✅ کار می‌کند! Font: ' + computed.fontFamily;
+                } else {
+                    result.className = 'result fail';
+                    result.textContent = '❌ کار نمی‌کند!';
+                }
+            }, 300);
+        </script>
+    </div>
+
+    <div class="test-box">
+        <h2>❌ lineicons.css.backup (قدیمی)</h2>
+        <link rel="stylesheet" href="assets/icons/lineicons.css.backup">
+        <div class="icon-display">
+            <i class="lni lni-home"></i>
+            <i class="lni lni-cog"></i>
+            <i class="lni lni-list"></i>
+        </div>
+        <div class="result" id="r2">⏳ بررسی...</div>
+        <script>
+            setTimeout(() => {
+                const icons = document.querySelectorAll('.lni-home');
+                const icon = icons[icons.length - 1];
+                const computed = window.getComputedStyle(icon, '::before');
+                const result = document.getElementById('r2');
+                if (computed.content && computed.content !== 'none') {
+                    result.className = 'result success';
+                    result.textContent = '✅ کار می‌کند!';
+                } else {
+                    result.className = 'result fail';
+                    result.textContent = '❌ همونطور که انتظار داشتیم، کار نمی‌کند!';
+                }
+            }, 500);
+        </script>
+    </div>
+</body>
+</html>
