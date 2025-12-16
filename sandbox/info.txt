@@ -1,0 +1,137 @@
+name: رنگ
+slug: colortitle
+
+name: اجرت
+slug: wagepercent
+
+name: وزن
+slug: weight
+
+
+
+
+
+
+
+
+
+
+
+
+ProductId -> meta:_external_id
+ProductCode -> sku
+ProductTitle -> post_title
+Weight -> meta:_weight
+BaseWeight -> meta:_base_weight
+IsExists -> stock_status
+CategoryTitle -> term:product_cat
+LocationTitle -> meta:_location
+ImageURL1 -> gallery_image
+ImageURL2 -> gallery_image
+ImageURL3 -> gallery_image
+ImageURL4 -> gallery_image
+ImageURL5 -> gallery_image
+ImageURL6 -> gallery_image
+ModelTitle -> attribute:model
+ColorTitle -> attribute:pa_color
+SizeTitle -> attribute:pa_size
+TaxPercent -> tax_class
+WeightSymbolRate -> meta:_weight_symbol_rate
+GoldPrice -> regular_price
+StonePrice -> meta:_stone_price
+WageOfPrice -> meta:_wage_price
+IncomeTotal -> meta:_income_total
+TaxTotal -> meta:_tax_total
+TotalPrice -> sale_price
+CollectionTitle -> attribute:collection
+SaleWageOfPercent -> meta:_sale_wage_percent
+SaleWageOfPrice -> meta:_sale_wage_price
+SaleWageOfPriceType -> meta:_sale_wage_price_type
+SaleStonePrice -> meta:_sale_stone_price
+OldCode -> meta:_old_code
+OfficeCode -> meta:_office_code
+DesignerCode -> meta:_designer_code
+other1 -> meta:_extra_field_1
+other2 -> meta:_extra_field_2
+DefaultImageURL -> featured_image
+
+
+
+
+
+
+
+
+            "ProductId": 2274,
+            "ProductCode": "GD01000238",
+            "ProductTitle": "انگشتر مینیمال",
+            "Weight": 1.8500,
+            "BaseWeight": 1.8500,
+            "IsExists": true,
+            "CategoryTitle": "کارساخته بازار",
+            "LocationTitle": "{ویترین بندی نشده}",
+            "ImageURL1": "/files/Img20251126-369.jpg",
+            "ImageURL2": "",
+            "ImageURL3": "",
+            "ImageURL4": "",
+            "ImageURL5": "",
+            "ImageURL6": "",
+            "ModelTitle": "انگشتر",
+            "ColorTitle": "زرد",
+            "SizeTitle": "",
+            "TaxPercent": 10.0000,
+            "WeightSymbolRate": 134450000.0000,
+            "GoldPrice": 248732500.0000,
+            "StonePrice": 0.0000,
+            "WageOfPrice": 31837760.0000,
+            "IncomeTotal": 19639918.0000,
+            "TaxTotal": 5147768.0000,
+            "TotalPrice": 305357946.0000,
+            "CollectionTitle": "",
+            "SaleWageOfPercent": 0.2368,
+            "SaleWageOfPrice": 0.0000,
+            "SaleWageOfPriceType": 2,
+            "SaleStonePrice": 0.0000,
+            "OldCode": "",
+            "OfficeCode": "",
+            "DesignerCode": "",
+            "other1": "",
+            "other2": "",
+            "DefaultImageURL": "/files/Img20251126-369.jpg"
+
+"ProductId",
+"ProductCode",
+"ProductTitle",
+"Weight",
+"BaseWeight",
+"IsExists",
+"CategoryTitle",
+"LocationTitle",
+"ImageURL1",
+"ImageURL2",
+"ImageURL3",
+"ImageURL4",
+"ImageURL5",
+"ImageURL6",
+"ModelTitle",
+"ColorTitle",
+"SizeTitle",
+"TaxPercent",
+"WeightSymbolRate",
+"GoldPrice",
+"StonePrice",
+"WageOfPrice",
+"IncomeTotal",
+"TaxTotal",
+"TotalPrice",
+"CollectionTitle",
+"SaleWageOfPercent",
+"SaleWageOfPrice",
+"SaleWageOfPriceType",
+"SaleStonePrice",
+"OldCode",
+"OfficeCode",
+"DesignerCode",
+"other1",
+"other2",
+"DefaultImageURL"
