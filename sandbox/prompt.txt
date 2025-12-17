@@ -1,0 +1,210 @@
+@workspace 
+سلام خوبی
+الان بیس پروژه خوبه و هیچ مشکلی نداره
+باید چندین کار انجام بدیم
+که بریم مرحله دو
+الان تمپلیت بیسش آمادست
+لطفا همه فایل هارو بخون و ببین جایگاه هر فایل کجاست
+داخل پوشه include
+یه پوشه به اسم API  بساز
+
+الان تو بخش تنظیمات ما سه تا گزینه از کاربر میگیریم
+آدرس IP سرور
+ 
+آدرس IP سرور مرکزی حسابداری
+
+پورت
+8080
+پورت ارتباطی با سرور
+
+نام کاربری
+ 
+نام کاربری برای احراز هویت
+
+رمز عبور
+••••••••
+رمز عبور حساب کاربری
+این سه تا مقدار رو از کاربر میگیرم
+همچنین بعد کش کن وذخیره کن 
+این مقادیر باید برای متغیر های زیر ست بشن و استفاده بشن ازش
+
+حالا 
+این سه تا دکمه هم خیلی پایین هست
+ذخیره تنظیمات
+بازنشانی
+تست اتصال
+باید تو باکس
+تنظیمات اتصال
+
+باشه این سه تا دکمه
+و موقع تست اتصال 
+جواب رو با رابط گرافیکی زیبا به کاربر نشون بده
+
+
+function requestProductUserKey(array $config): ?string {
+    $client = new Client([
+        'base_uri' => sprintf('http://%s:%d', $config['host'], $config['port']),
+        'timeout' => 20,
+        'http_errors' => false,
+        'headers' => ['Accept' => 'application/json'],
+    ]);
+
+    try {
+        $response = $client->get('/services/login/', [
+            'query' => [
+                'username' => $config['username'],
+                'password' => $config['password'],
+            ],
+        ]);
+    } catch (GuzzleException) {
+        return null;
+    }
+
+    $decoded = json_decode((string) $response->getBody(), true);
+    return json_last_error() === JSON_ERROR_NONE
+        ? ($decoded['Message']['UserKey'] ?? $decoded['Result']['UserKey'] ?? null)
+        : null;
+}
+
+$config = [
+    'host' => آدرس IP سرور مرکزی حسابداری
+
+,
+    'port' => پورت ارتباطی با سرور
+
+,
+    'username' => 'نام کاربری برای احراز هویت
+
+',
+    'password' => 'رمز عبور حساب کاربری
+
+,
+];
+
+function requestProductUserKey(array $config): ?string {
+    $client = new Client([
+        'base_uri' => sprintf('http://%s:%d', $config['host'], $config['port']),
+        'timeout' => 20,
+        'http_errors' => false,
+        'headers' => ['Accept' => 'application/json'],
+    ]);
+
+    try {
+        $response = $client->get('/services/login/', [
+            'query' => [
+                'username' => $config['username'],
+                'password' => $config['password'],
+            ],
+        ]);
+    } catch (GuzzleException) {
+        return null;
+    }
+
+    $decoded = json_decode((string) $response->getBody(), true);
+    return json_last_error() === JSON_ERROR_NONE
+        ? ($decoded['Message']['UserKey'] ?? $decoded['Result']['UserKey'] ?? null)
+        : null;
+}
+
+این نمونه کدیه که نوشته 
+
+خروجی رو د آینده باهاش کار داریم 
+میتونی خروجی رو هم برای کاربر چاپ کنی ببینه 
+با یک رابط کاربری زیبا
+
+
+
+حالا تو 
+منو های افزونه یک منو اضافه کن به اسم ایمپورت کردن
+سه تا ناویگیشن براش بساز
+یکیش ایمپورت کردن محوصلات
+یکیش ایمپورت کردن ویژگی ها
+یکیش ایپورت کردن متا دیتا  
+
+و از این کد میتونیم استفاده کنیم برای ایمپورت کردن اونا
+add_action('admin_notices', static function () {
+    printf('<div class="notice notice-success"><p>%s</p></div>', esc_html__('متادیتاهای حسابداری زرگر و ویژگی‌ها ثبت شدند.', 'zargar-setup'));
+});
+
+register_zargar_meta_fields();
+register_zargar_attributes();
+
+function register_zargar_meta_fields(): void {
+    $metaFields = [
+        ['meta_key' => '_location', 'label' => 'محل نگهداری'],
+        ['meta_key' => '_external_id', 'label' => 'شناسه خارجی'],
+        ['meta_key' => '_stone_price', 'label' => 'قیمت سنگ'],
+        ['meta_key' => 'wage_price', 'label' => 'قیمت اجرت'],
+        ['meta_key' => '_income_total', 'label' => 'جمع درآمد'],
+        ['meta_key' => '_tax_total', 'label' => 'جمع مالیات'],
+        ['meta_key' => 'sale_wage_percent', 'label' => 'درصد اجرت فروش'],
+        ['meta_key' => 'sale_wage_price', 'label' => 'مبلغ اجرت فروش'],
+        ['meta_key' => 'sale_wage_price_type', 'label' => 'نوع اجرت فروش'],
+        ['meta_key' => 'sale_wage_stone', 'label' => 'اجرت سنگ فروش'],
+        ['meta_key' => '_office_code', 'label' => 'کد دفتر'],
+        ['meta_key' => '_designer_code', 'label' => 'کد طراح'],
+        ['meta_key' => '_extra_field_1', 'label' => 'فیلد اضافه ۱'],
+        ['meta_key' => '_extra_field_2', 'label' => 'فیلد اضافه ۲'],
+    ];
+
+    echo "\n=== متادیتاهای حسابداری زرگر ===\n";
+    foreach ($metaFields as $meta) {
+        register_post_meta('product', $meta['meta_key'], [
+            'type' => 'string',
+            'description' => $meta['label'],
+            'single' => true,
+            'show_in_rest' => true,
+        ]);
+        printf("Registered meta '%s' (%s)\n", $meta['meta_key'], $meta['label']);
+    }
+}
+
+function register_zargar_attributes(): void {
+    $attributes = [
+        ['slug' => 'base_weight', 'label' => 'وزن پایه'],
+        ['slug' => 'weight', 'label' => 'وزن'],
+        ['slug' => 'model', 'label' => 'مدل'],
+        ['slug' => 'collection', 'label' => 'مجموعه'],
+        ['slug' => 'color', 'label' => 'رنگ'],
+        ['slug' => 'size', 'label' => 'سایز'],
+        ['slug' => '_weight_symbol_rate', 'label' => 'نرخ وزن'],
+    ];
+
+    echo "\n=== ویژگی‌های محصول ===\n";
+    $existing = wc_get_attribute_taxonomies();
+    $existingSlugs = array_map(static fn($tax) => $tax->attribute_name, $existing);
+
+    foreach ($attributes as $attr) {
+        if (in_array($attr['slug'], $existingSlugs, true)) {
+            printf("Attribute '%s' (%s) already exists.\n", $attr['slug'], $attr['label']);
+            continue;
+        }
+
+        $result = wc_create_attribute([
+            'slug'         => $attr['slug'],
+            'name'         => $attr['label'],
+            'type'         => 'select',
+            'order_by'     => 'menu_order',
+            'has_archives' => false,
+        ]);
+
+        if (is_wp_error($result)) {
+            printf("Failed to create attribute '%s': %s\n", $attr['label'], $result->get_error_message());
+        } else {
+            printf("Created attribute '%s' (%s).\n", $attr['slug'], $attr['label']);
+        }
+    }
+}
+
+حالا لطفا فایل هایی که لازمه رو بساز
+لطفا چهار چوب ui/ux رو رعایت کن
+کد نویسی تمیز و شی گرا باشه
+ماطبق کامل با کتاب کلین کد
+
+هر جا که لازم و ضرور بود
+از فیلد لاگ استفاده کن قبلا لاگ رو نوشتیم
+پوشه .read
+کار های قبلی که تو پروژه انجام دادیم
+کار جدیدی کردی میتونی فایل جدید.read بسازی و بنویسی چیکار کردی
+لطفا مواظب باش افزونه دچار باگ و اختلال با افزونه های دیگر نشه 
+خیلی ممنون

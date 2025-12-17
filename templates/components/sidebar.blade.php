@@ -18,6 +18,15 @@
             </a>
         </li>
         
+        <li class="sidebar-menu-item {{ (isset($_GET['page']) && $_GET['page'] === 'zargar-accounting-import') ? 'active' : '' }}">
+            <a href="?page=zargar-accounting-import" class="sidebar-menu-link">
+                <span class="sidebar-menu-icon">
+                    <i class="lni lni-download"></i>
+                </span>
+                <span class="sidebar-menu-text">ایمپورت</span>
+            </a>
+        </li>
+        
         <li class="sidebar-menu-item {{ (isset($_GET['page']) && $_GET['page'] === 'zargar-accounting-logs') ? 'active' : '' }}">
             <a href="?page=zargar-accounting-logs" class="sidebar-menu-link">
                 <span class="sidebar-menu-icon">

@@ -1,109 +1,0 @@
-# 🚨 رفع خطای "یک خطای مهم در این وب سایت وجود دارد"
-
-## مشکل شما چیست؟
-
-این خطا معمولاً به یکی از این دلایل رخ می‌دهد:
-
-### 1️⃣ Composer نصب نشده
-```bash
-cd wp-content/plugins/zargar-accounting
-composer install
-```
-
-### 2️⃣ پلاگین فعال نشده
-- به پنل مدیریت وردپرس بروید
-- از منوی "افزونه‌ها" پلاگین "Zargar Accounting" را فعال کنید
-
-### 3️⃣ نسخه PHP پایین است
-- حداقل PHP 8.1 نیاز است
-- نسخه فعلی را بررسی کنید: `php -v`
-
-### 4️⃣ مجوزهای فایل اشتباه است
-```bash
-cd wp-content/plugins/zargar-accounting
-chmod -R 755 storage/
-chown -R www-data:www-data storage/
-```
-
-## 🔍 تشخیص دقیق مشکل
-
-فایل `check-health.php` را باز کنید:
-```
-https://yoursite.com/wp-content/plugins/zargar-accounting/check-health.php
-```
-
-این صفحه به شما می‌گوید دقیقاً چه مشکلی وجود دارد!
-
-## 📝 مراحل نصب کامل
-
-### مرحله 1: کپی پلاگین
-```bash
-# پلاگین را در مسیر درست قرار دهید
-cp -r zargar-accounting/ /path/to/wordpress/wp-content/plugins/
-```
-
-### مرحله 2: نصب وابستگی‌ها
-```bash
-cd /path/to/wordpress/wp-content/plugins/zargar-accounting
-composer install
-```
-
-### مرحله 3: تنظیم مجوزها
-```bash
-chmod -R 755 storage/
-chmod 644 zargar-accounting.php
-```
-
-### مرحله 4: فعال‌سازی
-- پنل مدیریت وردپرس → افزونه‌ها → فعال‌سازی "Zargar Accounting"
-
-### مرحله 5: تست
-```bash
-# کپی فایل تست
-cp test-advanced-logger.php /path/to/wordpress/
-
-# مراجعه به:
-https://yoursite.com/test-advanced-logger.php
-```
-
-## 🐛 Debug Mode
-
-برای مشاهده خطای دقیق، در `wp-config.php`:
-
-```php
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-define('WP_DEBUG_DISPLAY', false);
-```
-
-سپس خطاها را در `wp-content/debug.log` بررسی کنید.
-
-## ✅ بررسی موارد زیر
-
-- [ ] PHP >= 8.1
-- [ ] WordPress >= 5.8
-- [ ] Composer نصب شده
-- [ ] vendor/autoload.php موجود است
-- [ ] storage/logs/ قابل نوشتن است
-- [ ] پلاگین فعال است
-- [ ] فایل includes/Logger/LoggerAjax.php موجود است
-
-## 📞 کمک بیشتر
-
-اگر همچنان مشکل دارید:
-
-1. فایل `check-health.php` را باز کنید و screenshot از صفحه بگیرید
-2. محتوای `wp-content/debug.log` را بررسی کنید
-3. با دستور زیر خطاهای PHP را چک کنید:
-   ```bash
-   php -l zargar-accounting.php
-   find includes/ -name "*.php" -exec php -l {} \;
-   ```
-
-## 🔒 امنیت
-
-بعد از حل مشکل، حتماً این فایل‌ها را حذف کنید:
-```bash
-rm check-health.php
-rm test-advanced-logger.php
-```

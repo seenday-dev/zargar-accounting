@@ -47,6 +47,10 @@ function zargar_accounting_init() {
     $logger_ajax = ZargarAccounting\Logger\LoggerAjax::getInstance();
     $logger_ajax->registerHooks();
     
+    // Initialize Settings Handler
+    $settings_handler = ZargarAccounting\Admin\SettingsHandler::getInstance();
+    $settings_handler->registerHooks();
+    
     // Log plugin initialization
     $logger->info('Zargar Accounting plugin initialized');
 }

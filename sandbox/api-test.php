@@ -7,10 +7,18 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
 $config = [
-    'host' => '37.235.18.235',
-    'port' => 8090,
-    'username' => 'Service',
-    'password' => 'Service',
+    'host' => آدرس IP سرور مرکزی حسابداری
+
+,
+    'port' => پورت ارتباطی با سرور
+
+,
+    'username' => 'نام کاربری برای احراز هویت
+
+',
+    'password' => 'رمز عبور حساب کاربری
+
+,
 ];
 
 function requestProductUserKey(array $config): ?string {

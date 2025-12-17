@@ -9,7 +9,15 @@
         <div class="content-inner">
             <h2 class="page-title" style="font-size: 28px; color: var(--gold-400); margin-bottom: var(--space-xl);">تنظیمات سیستم</h2>
             
-            <form method="post" class="settings-form">
+            @if(isset($_GET['updated']) && $_GET['updated'] === 'true')
+            <div class="settings-notice success">
+                <i class="lni lni-checkmark-circle"></i>
+                تنظیمات با موفقیت ذخیره شد
+            </div>
+            @endif
+            
+            <form method="post" action="<?php echo admin_url('admin-post.php'); ?>" class="settings-form" id="settings-form">
+                <input type="hidden" name="action" value="zargar_save_settings">
                 @nonce('zargar_settings')
                 
                 <!-- Connection Settings -->
@@ -74,51 +82,26 @@
                     </div>
                 </div>
                 
-                <!-- Component Placeholder 1 -->
-                <div class="settings-section component-placeholder">
-                    <span class="component-placeholder-icon">📦</span>
-                    <p class="component-placeholder-text">کامپوننت شماره ۱ - آماده برای توسعه</p>
-                </div>
-                
-                <!-- Component Placeholder 2 -->
-                <div class="settings-section component-placeholder">
-                    <span class="component-placeholder-icon">🔧</span>
-                    <p class="component-placeholder-text">کامپوننت شماره ۲ - آماده برای توسعه</p>
-                </div>
-                
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
-                        <span>ذخیره تنظیمات</span>
+                        <i class="lni lni-save"></i>
+                        ذخیره تنظیمات
                     </button>
-                    <button type="reset" class="btn btn-secondary">بازنشانی</button>
-                    <button type="button" class="btn btn-secondary" onclick="testConnection()">تست اتصال</button>
+                    <button type="reset" class="btn btn-secondary">
+                        <i class="lni lni-reload"></i>
+                        بازنشانی
+                    </button>
+                    <button type="button" class="btn btn-info" id="test-connection">
+                        <i class="lni lni-pulse"></i>
+                        تست اتصال
+                    </button>
                 </div>
             </form>
+            
+            <!-- Connection Test Result -->
+            <div class="connection-result" id="connection-result" style="display: none;"></div>
         </div>
     </main>
 </div>
 
 @include('components.footer')
-
-<script>
-function testConnection() {
-    const serverIp = document.getElementById('server_ip').value;
-    const serverPort = document.getElementById('server_port').value;
-    
-    if (!serverIp || !serverPort) {
-        alert('لطفاً آدرس IP و پورت را وارد کنید');
-        return;
-    }
-    
-    // Simulate connection test
-    const btn = event.target;
-    btn.innerHTML = '<span class="loading-spinner"></span> در حال تست...';
-    btn.disabled = true;
-    
-    setTimeout(() => {
-        alert('✓ اتصال موفقیت‌آمیز بود!\n\nآدرس: ' + serverIp + ':' + serverPort);
-        btn.innerHTML = 'تست اتصال';
-        btn.disabled = false;
-    }, 2000);
-}
-</script>

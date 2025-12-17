@@ -60,6 +60,16 @@ class MenuManager {
             [$this, 'renderSettings']
         );
         
+        // Import submenu
+        add_submenu_page(
+            'zargar-accounting',
+            __('ایمپورت', 'zargar-accounting'),
+            __('ایمپورت', 'zargar-accounting'),
+            'manage_options',
+            'zargar-accounting-import',
+            [$this, 'renderImport']
+        );
+        
         // Logs submenu
         add_submenu_page(
             'zargar-accounting',
@@ -86,6 +96,20 @@ class MenuManager {
             'server_port' => get_option('zargar_server_port', '8080'),
             'username' => get_option('zargar_username', ''),
             'password' => get_option('zargar_password', '')
+        ]);
+    }
+    
+    public function renderImport() {
+        $blade = BladeRenderer::getInstance();
+        echo $blade->render('admin.import', [
+            'title' => 'ایمپورت داده‌ها'
+        ]);
+    }
+    
+    public function renderDatabase() {
+        $blade = BladeRenderer::getInstance();
+        echo $blade->render('admin.database', [
+            'title' => 'مدیریت دیتابیس'
         ]);
     }
     
