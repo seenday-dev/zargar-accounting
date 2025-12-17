@@ -225,13 +225,13 @@ attribute:_base_weight
 attribute:weight
 attribute:model
 attribute:collection
-attribute:pa_color
-attribute:pa_size
+attribute:color
+attribute:size
 attribute:weight_symbol_rate
+attribute:wage
 meta:_location
 meta:_external_id
 meta:_stone_price
-meta:wage_price
 meta:_income_total
 meta:_tax_total
 meta:sale_wage_percent

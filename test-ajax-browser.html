@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست AJAX جستجوی محصولات</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazir', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1a202c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-right: 4px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2d3748;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .result.success {
+            background: #c6f6d5;
+            border: 2px solid #48bb78;
+        }
+        .result.error {
+            background: #fed7d7;
+            border: 2px solid #f56565;
+        }
+        .result h3 {
+            margin-bottom: 15px;
+            color: #1a202c;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+            direction: ltr;
+            text-align: left;
+        }
+        .spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .spinner.show {
+            display: block;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .spinner-icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 تست AJAX جستجوی محصولات زرگر</h1>
+        
+        <div class="info-box">
+            <strong>⚠️ توجه:</strong> این صفحه باید از داخل سایت وردپرس اجرا شود تا AJAX کار کند.
+        </div>
+
+        <div class="form-group">
+            <label for="wordpress-url">آدرس سایت وردپرس:</label>
+            <input type="text" id="wordpress-url" placeholder="https://example.com" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="product-codes">کدهای محصول (با کاما جدا شوند):</label>
+            <textarea id="product-codes" rows="3" placeholder="GD01000315, GD01000316">GD01000315</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="nonce">Nonce (از صفحه ایمپورت پلاگین کپی کنید):</label>
+            <input type="text" id="nonce" placeholder="اگر خالی باشد، بدون nonce تست می‌شود">
+        </div>
+
+        <button id="test-btn" onclick="testAjax()">🚀 شروع تست</button>
+
+        <div class="spinner" id="spinner">
+            <div class="spinner-icon"></div>
+            <p>در حال ارسال درخواست...</p>
+        </div>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // Auto-detect WordPress URL
+        if (window.location.href.includes('wp-content') || window.location.href.includes('wp-admin')) {
+            const url = window.location.origin;
+            document.getElementById('wordpress-url').value = url;
+        }
+
+        async function testAjax() {
+            const wpUrl = document.getElementById('wordpress-url').value.trim();
+            const codes = document.getElementById('product-codes').value.trim();
+            const nonce = document.getElementById('nonce').value.trim();
+            const resultDiv = document.getElementById('result');
+            const spinner = document.getElementById('spinner');
+            const button = document.getElementById('test-btn');
+
+            // Validation
+            if (!wpUrl) {
+                alert('لطفاً آدرس سایت وردپرس را وارد کنید');
+                return;
+            }
+
+            if (!codes) {
+                alert('لطفاً حداقل یک کد محصول وارد کنید');
+                return;
+            }
+
+            // Parse codes
+            const codesArray = codes.split(',').map(c => c.trim()).filter(c => c);
+
+            // Show spinner
+            spinner.classList.add('show');
+            resultDiv.classList.remove('show');
+            button.disabled = true;
+
+            const ajaxUrl = wpUrl + '/wp-admin/admin-ajax.php';
+            
+            const data = new FormData();
+            data.append('action', 'zargar_search_products');
+            data.append('codes', JSON.stringify(codesArray));
+            if (nonce) {
+                data.append('nonce', nonce);
+            }
+
+            console.log('=== تست AJAX ===');
+            console.log('URL:', ajaxUrl);
+            console.log('Codes:', codesArray);
+            console.log('Nonce:', nonce || '(ندارد)');
+
+            try {
+                const response = await fetch(ajaxUrl, {
+                    method: 'POST',
+                    body: data,
+                    credentials: 'include'
+                });
+
+                console.log('Response Status:', response.status);
+                console.log('Response Headers:', response.headers);
+
+                const text = await response.text();
+                console.log('Response Text:', text);
+
+                let result = `<h3>📊 نتیجه تست</h3>`;
+                result += `<p><strong>وضعیت HTTP:</strong> ${response.status} ${response.statusText}</p>`;
+                result += `<p><strong>آدرس:</strong> ${ajaxUrl}</p>`;
+                result += `<p><strong>کدهای جستجو شده:</strong> ${codesArray.join(', ')}</p>`;
+                result += `<h4>پاسخ سرور:</h4>`;
+                result += `<pre>${text}</pre>`;
+
+                // Try to parse JSON
+                try {
+                    const json = JSON.parse(text);
+                    result += `<h4>پاسخ JSON:</h4>`;
+                    result += `<pre>${JSON.stringify(json, null, 2)}</pre>`;
+                    
+                    if (json.success) {
+                        resultDiv.classList.add('success');
+                        result = `<h3>✅ موفقیت</h3>` + result;
+                    } else {
+                        resultDiv.classList.add('error');
+                        result = `<h3>❌ خطا</h3>` + result;
+                    }
+                } catch (e) {
+                    resultDiv.classList.add('error');
+                    result = `<h3>⚠️ پاسخ JSON نامعتبر</h3>` + result;
+                }
+
+                resultDiv.innerHTML = result;
+                resultDiv.classList.add('show');
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                
+                resultDiv.innerHTML = `
+                    <h3>❌ خطای شبکه</h3>
+                    <p><strong>پیام خطا:</strong> ${error.message}</p>
+                    <pre>${error.stack || error.toString()}</pre>
+                `;
+                resultDiv.classList.add('error');
+                resultDiv.classList.add('show');
+            } finally {
+                spinner.classList.remove('show');
+                button.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

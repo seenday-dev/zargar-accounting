@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 سیستم Import حرفه‌ای - زرگر</title>
+    <link rel="stylesheet" href="assets/css/import.css">
+    <link rel="stylesheet" href="assets/icons/lineicons.css">
+    <style>
+        :root {
+            --gold-400: #d4af37;
+            --gold-500: #c9a430;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .test-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: var(--gold-400);
+            margin-bottom: 40px;
+            font-size: 32px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 سیستم Import پیشرفته - حسابداری زرگر</h1>
+        
+        <!-- Product Import Section -->
+        <div class="import-section">
+            <div class="import-header">
+                <div class="import-header-icon">
+                    <i class="lni lni-cart"></i>
+                </div>
+                <div>
+                    <h3>ایمپورت محصولات</h3>
+                    <p>انتخاب فیلدهای دلخواه برای ایمپورت از API زرگر به WooCommerce</p>
+                </div>
+            </div>
+            
+            <!-- Import Mode Tabs -->
+            <div class="import-mode-tabs">
+                <button class="import-mode-tab active" onclick="switchMode('bulk')">
+                    <i class="lni lni-layers"></i>
+                    <span>ایمپورت دسته‌ای</span>
+                    <small>همه محصولات</small>
+                </button>
+                <button class="import-mode-tab" onclick="switchMode('specific')">
+                    <i class="lni lni-search"></i>
+                    <span>ایمپورت انتخابی</span>
+                    <small>با کد محصول</small>
+                </button>
+            </div>
+            
+            <!-- Stats Box -->
+            <div class="import-stats-box">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">محصولات موجود در سرور</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-package"></i>
+                            4,583
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">فیلدهای قابل انتخاب</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-list"></i>
+                            36
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">دسته‌بندی فیلدها</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-grid-alt"></i>
+                            9
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Specific Product Import -->
+            <div class="specific-import-container" id="specific-import" style="display: none;">
+                <div class="specific-import-header">
+                    <i class="lni lni-magnifier"></i>
+                    <div>
+                        <h4>ایمپورت محصولات خاص</h4>
+                        <p>کد محصول (ProductCode) را وارد کنید. برای چند محصول از کاما استفاده کنید.</p>
+                    </div>
+                </div>
+                
+                <div class="product-code-input-wrapper">
+                    <div class="input-group">
+                        <label for="product-codes">
+                            <i class="lni lni-tag"></i>
+                            کد محصولات
+                        </label>
+                        <input 
+                            type="text" 
+                            id="product-codes" 
+                            class="product-code-input" 
+                            placeholder="مثال: GD01000377, GD01000378, GD01000379"
+                            autocomplete="off"
+                        >
+                        <small class="input-hint">
+                            <i class="lni lni-information"></i>
+                            برای جداسازی کدهای محصول از کاما (,) استفاده کنید
+                        </small>
+                    </div>
+                    
+                    <div class="product-code-actions">
+                        <button class="btn btn-primary" onclick="searchProducts()">
+                            <i class="lni lni-search"></i>
+                            جستجو و نمایش
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearCodes()">
+                            <i class="lni lni-close"></i>
+                            پاک کردن
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search Results -->
+                <div class="search-results" id="search-results" style="display: none;">
+                    <div class="results-header">
+                        <div class="results-count">
+                            <i class="lni lni-check-box"></i>
+                            <span id="results-count-text">0 محصول یافت شد</span>
+                        </div>
+                        <button class="btn btn-success" onclick="importSelected()">
+                            <i class="lni lni-download"></i>
+                            ایمپورت محصولات انتخابی
+                        </button>
+                    </div>
+                    
+                    <div class="results-grid" id="results-grid"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Import Logs Section -->
+        <div class="import-logs-section" style="margin-top: 32px;">
+            <div class="logs-header">
+                <h3>
+                    <i class="lni lni-text-format"></i>
+                    لاگ عملیات ایمپورت
+                </h3>
+                <button class="btn btn-secondary btn-small" onclick="clearAllLogs()">
+                    <i class="lni lni-trash"></i>
+                    پاک کردن لاگ‌ها
+                </button>
+            </div>
+            
+            <div class="logs-container" id="import-logs">
+                <div class="logs-empty">
+                    <i class="lni lni-empty-file"></i>
+                    <p>هنوز لاگی ثبت نشده است</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mock products data
+        const mockProducts = [
+            {ProductId: 1, ProductCode: 'GD01000377', ProductTitle: 'انگشتر طلا سولیتر', CategoryTitle: 'انگشتر', Weight: '3.5', GoldPrice: '45000000'},
+            {ProductId: 2, ProductCode: 'GD01000378', ProductTitle: 'گردنبند طلای زنانه', CategoryTitle: 'گردنبند', Weight: '5.2', GoldPrice: '78000000'},
+            {ProductId: 3, ProductCode: 'GD01000379', ProductTitle: 'دستبند طلا نگین‌دار', CategoryTitle: 'دستبند', Weight: '8.1', GoldPrice: '125000000'},
+            {ProductId: 4, ProductCode: 'GD01000380', ProductTitle: 'گوشواره طلا مروارید', CategoryTitle: 'گوشواره', Weight: '2.3', GoldPrice: '32000000'},
+        ];
+        
+        function addLogEntry(message, type = 'info', details = null) {
+            const logDiv = document.getElementById('import-logs');
+            const time = new Date().toLocaleTimeString('fa-IR');
+            
+            const empty = logDiv.querySelector('.logs-empty');
+            if (empty) logDiv.innerHTML = '';
+            
+            const iconMap = {
+                success: 'checkmark-circle',
+                error: 'close-circle',
+                info: 'information',
+                warning: 'warning'
+            };
+            
+            const logHtml = `
+                <div class="log-entry log-${type}">
+                    <span class="log-time">${time}</span>
+                    <span class="log-icon"><i class="lni lni-${iconMap[type]}"></i></span>
+                    <span class="log-message">${message}</span>
+                    ${details ? `<div class="log-details">${details}</div>` : ''}
+                </div>
+            `;
+            
+            logDiv.insertAdjacentHTML('afterbegin', logHtml);
+        }
+        
+        function switchMode(mode) {
+            document.querySelectorAll('.import-mode-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.closest('.import-mode-tab').classList.add('active');
+            
+            if (mode === 'bulk') {
+                document.getElementById('specific-import').style.display = 'none';
+                addLogEntry('حالت ایمپورت دسته‌ای فعال شد', 'info');
+            } else {
+                document.getElementById('specific-import').style.display = 'block';
+                addLogEntry('حالت ایمپورت انتخابی فعال شد - می‌توانید کد محصولات را وارد کنید', 'info');
+            }
+        }
+        
+        function searchProducts() {
+            const input = document.getElementById('product-codes').value.trim();
+            if (!input) {
+                alert('لطفاً کد محصول را وارد کنید');
+                return;
+            }
+            
+            const codes = input.split(',').map(c => c.trim()).filter(c => c);
+            addLogEntry(`جستجوی ${codes.length} کد محصول...`, 'info');
+            
+            setTimeout(() => {
+                const foundProducts = mockProducts.filter(p => codes.includes(p.ProductCode));
+                displayResults(foundProducts);
+                addLogEntry(`${foundProducts.length} محصول از ${codes.length} کد یافت شد`, 'success');
+            }, 1000);
+        }
+        
+        function displayResults(products) {
+            const resultsDiv = document.getElementById('search-results');
+            const gridDiv = document.getElementById('results-grid');
+            
+            if (products.length === 0) {
+                gridDiv.innerHTML = '<div class="empty-results"><i class="lni lni-inbox"></i><p>محصولی یافت نشد</p></div>';
+                resultsDiv.style.display = 'block';
+                return;
+            }
+            
+            let html = '';
+            products.forEach(p => {
+                html += `
+                    <div class="result-product-card" onclick="toggleCard(this)">
+                        <div class="product-card-header">
+                            <span class="product-card-code">${p.ProductCode}</span>
+                            <input type="checkbox" class="product-card-checkbox" value="${p.ProductCode}" onclick="event.stopPropagation()">
+                        </div>
+                        <div class="product-card-title">${p.ProductTitle}</div>
+                        <div class="product-card-meta">
+                            <div class="product-card-meta-item">
+                                <i class="lni lni-tag"></i>
+                                ${p.CategoryTitle}
+                            </div>
+                            <div class="product-card-meta-item">
+                                <i class="lni lni-weight"></i>
+                                وزن: ${p.Weight} گرم
+                            </div>
+                            <div class="product-card-meta-item">
+                                <i class="lni lni-coin"></i>
+                                ${Number(p.GoldPrice).toLocaleString('fa-IR')} ریال
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            gridDiv.innerHTML = html;
+            resultsDiv.style.display = 'block';
+            document.getElementById('results-count-text').textContent = `${products.length} محصول یافت شد`;
+        }
+        
+        function toggleCard(card) {
+            const checkbox = card.querySelector('.product-card-checkbox');
+            checkbox.checked = !checkbox.checked;
+            card.classList.toggle('selected', checkbox.checked);
+            
+            const count = document.querySelectorAll('.product-card-checkbox:checked').length;
+            document.getElementById('results-count-text').textContent = `${count} محصول انتخاب شده`;
+        }
+        
+        function importSelected() {
+            const selected = Array.from(document.querySelectorAll('.product-card-checkbox:checked'));
+            if (selected.length === 0) {
+                alert('لطفاً حداقل یک محصول را انتخاب کنید');
+                return;
+            }
+            
+            addLogEntry(`شروع ایمپورت ${selected.length} محصول انتخابی...`, 'info');
+            
+            setTimeout(() => {
+                addLogEntry(
+                    `ایمپورت ${selected.length} محصول با موفقیت انجام شد`,
+                    'success',
+                    '<small>✓ همه محصولات با موفقیت به ووکامرس اضافه شدند</small>'
+                );
+            }, 2000);
+        }
+        
+        function clearCodes() {
+            document.getElementById('product-codes').value = '';
+            document.getElementById('search-results').style.display = 'none';
+        }
+        
+        function clearAllLogs() {
+            if (confirm('آیا مطمئن هستید؟')) {
+                document.getElementById('import-logs').innerHTML = `
+                    <div class="logs-empty">
+                        <i class="lni lni-empty-file"></i>
+                        <p>هنوز لاگی ثبت نشده است</p>
+                    </div>
+                `;
+                addLogEntry('لاگ‌ها پاک شدند', 'info');
+            }
+        }
+        
+        // Initialize
+        setTimeout(() => {
+            addLogEntry('سیستم ایمپورت آماده است - دو حالت ایمپورت در دسترس است', 'success');
+        }, 500);
+    </script>
+</body>
+</html>

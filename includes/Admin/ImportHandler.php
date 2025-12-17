@@ -160,6 +160,7 @@ class ImportHandler {
             ['slug' => 'color', 'label' => 'رنگ'],
             ['slug' => 'size', 'label' => 'سایز'],
             ['slug' => '_weight_symbol_rate', 'label' => 'نرخ وزن'],
+            ['slug' => 'wagepercent', 'label' => 'اجرت(درصد)'],
         ];
         
         $existing = wc_get_attribute_taxonomies();

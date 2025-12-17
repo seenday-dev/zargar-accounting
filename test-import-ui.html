@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیش‌نمایش UI ایمپورت</title>
+    <link rel="stylesheet" href="assets/css/import.css">
+    <link rel="stylesheet" href="assets/icons/lineicons.css">
+    <style>
+        :root {
+            --gold-400: #d4af37;
+            --gold-500: #c9a430;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: var(--gold-400);
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>پیش‌نمایش رابط کاربری ایمپورت</h1>
+        
+        <!-- Product Import Section -->
+        <div class="import-section">
+            <div class="import-header">
+                <div class="import-header-icon">
+                    <i class="lni lni-cart"></i>
+                </div>
+                <div>
+                    <h3>ایمپورت محصولات</h3>
+                    <p>انتخاب فیلدهای دلخواه برای ایمپورت از API زرگر به WooCommerce</p>
+                </div>
+            </div>
+            
+            <!-- Stats Box -->
+            <div class="import-stats-box">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">تعداد محصولات</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-package"></i>
+                            1,234
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">فیلدهای موجود</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-list"></i>
+                            34
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">دسته‌بندی‌ها</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-grid-alt"></i>
+                            9
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Field Selection -->
+            <div class="field-selection-container">
+                <div class="field-selection-header">
+                    <h4>انتخاب فیلدها برای Import</h4>
+                    <div class="field-selection-actions">
+                        <button class="btn-link">✓ انتخاب همه</button>
+                        <button class="btn-link">✗ حذف انتخاب همه</button>
+                    </div>
+                </div>
+                
+                <div class="field-categories">
+                    <div class="field-category">
+                        <div class="field-category-title">
+                            <i class="lni lni-info"></i>
+                            اطلاعات اصلی
+                        </div>
+                        <div class="field-items">
+                            <div class="field-item">
+                                <input type="checkbox" id="f1" checked>
+                                <label for="f1">کد محصول</label>
+                            </div>
+                            <div class="field-item">
+                                <input type="checkbox" id="f2" checked>
+                                <label for="f2">عنوان محصول</label>
+                            </div>
+                            <div class="field-item">
+                                <input type="checkbox" id="f3">
+                                <label for="f3">شناسه خارجی</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="field-category">
+                        <div class="field-category-title">
+                            <i class="lni lni-weight"></i>
+                            وزن و اندازه
+                        </div>
+                        <div class="field-items">
+                            <div class="field-item">
+                                <input type="checkbox" id="f4" checked>
+                                <label for="f4">وزن</label>
+                            </div>
+                            <div class="field-item">
+                                <input type="checkbox" id="f5">
+                                <label for="f5">وزن پایه</label>
+                            </div>
+                            <div class="field-item">
+                                <input type="checkbox" id="f6">
+                                <label for="f6">نرخ وزن</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="import-actions">
+                    <button class="btn btn-primary btn-large">
+                        <i class="lni lni-download"></i>
+                        شروع ایمپورت
+                    </button>
+                    <span class="selected-count">5 فیلد انتخاب شده</span>
+                </div>
+            </div>
+            
+            <!-- Progress Section -->
+            <div class="import-progress-container">
+                <div class="progress-header">
+                    <h4>پیشرفت ایمپورت</h4>
+                    <button class="btn-icon">
+                        <i class="lni lni-close"></i>
+                    </button>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 65%;"></div>
+                </div>
+                
+                <div class="progress-stats">
+                    <div class="progress-stat">
+                        <span class="progress-label">کل:</span>
+                        <span class="progress-value">1234</span>
+                    </div>
+                    <div class="progress-stat success">
+                        <span class="progress-label">موفق:</span>
+                        <span class="progress-value">800</span>
+                    </div>
+                    <div class="progress-stat error">
+                        <span class="progress-label">ناموفق:</span>
+                        <span class="progress-value">5</span>
+                    </div>
+                </div>
+                
+                <div class="progress-message">
+                    در حال ایمپورت محصول 805 از 1234...
+                </div>
+            </div>
+        </div>
+        
+        <!-- Import Logs Section -->
+        <div class="import-logs-section" style="margin-top: 32px;">
+            <div class="logs-header">
+                <h3>
+                    <i class="lni lni-text-format"></i>
+                    لاگ عملیات ایمپورت
+                </h3>
+                <button class="btn btn-secondary btn-small">
+                    <i class="lni lni-trash"></i>
+                    پاک کردن لاگ‌ها
+                </button>
+            </div>
+            
+            <div class="logs-container">
+                <div class="log-entry log-success">
+                    <span class="log-time">14:35:22</span>
+                    <span class="log-icon">✓</span>
+                    <span class="log-message">محصول "گردنبند طلا" با موفقیت ایمپورت شد</span>
+                </div>
+                <div class="log-entry log-success">
+                    <span class="log-time">14:35:21</span>
+                    <span class="log-icon">✓</span>
+                    <span class="log-message">محصول "انگشتر نقره" با موفقیت ایمپورت شد</span>
+                </div>
+                <div class="log-entry log-error">
+                    <span class="log-time">14:35:19</span>
+                    <span class="log-icon">✗</span>
+                    <span class="log-message">خطا در دانلود تصویر محصول "دستبند طلا"</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .btn-icon {
+            background: white;
+            border: 1px solid #cbd5e1;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .log-entry {
+            padding: 12px 16px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-right: 4px solid #e2e8f0;
+        }
+        .log-entry.log-success {
+            border-right-color: #10b981;
+        }
+        .log-entry.log-error {
+            border-right-color: #ef4444;
+        }
+        .log-time {
+            font-size: 12px;
+            color: #64748b;
+            font-family: monospace;
+        }
+        .log-icon {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .log-entry.log-success .log-icon {
+            color: #10b981;
+        }
+        .log-entry.log-error .log-icon {
+            color: #ef4444;
+        }
+        .log-message {
+            flex: 1;
+            font-size: 14px;
+            color: #334155;
+        }
+    </style>
+</body>
+</html>

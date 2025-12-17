@@ -51,9 +51,27 @@ function zargar_accounting_init() {
     $settings_handler = ZargarAccounting\Admin\SettingsHandler::getInstance();
     $settings_handler->registerHooks();
     
+    // Initialize Product Import Manager
+    $import_manager = ZargarAccounting\Admin\ProductImportManager::getInstance();
+    $import_manager->registerHooks();
+    
+    // Initialize Import Handler (Metadata & Attributes)
+    $import_handler = ZargarAccounting\Admin\ImportHandler::getInstance();
+    $import_handler->registerHooks();
+    
+    // Initialize Product Meta Box
+    $product_metabox = ZargarAccounting\Admin\ProductMetaBox::getInstance();
+    $product_metabox->registerHooks();
+    
     // Log plugin initialization
     $logger->info('Zargar Accounting plugin initialized');
 }
+
+// Register background import tasks
+add_action('zargar_process_import', function($selectedFields) {
+    $import_manager = ZargarAccounting\Admin\ProductImportManager::getInstance();
+    $import_manager->processImport($selectedFields);
+});
 
 add_action('plugins_loaded', 'zargar_accounting_init');
 

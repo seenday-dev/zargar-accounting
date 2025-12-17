@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست کامل سیستم Import</title>
+    <link rel="stylesheet" href="assets/css/import.css">
+    <link rel="stylesheet" href="assets/icons/lineicons.css">
+    <style>
+        :root {
+            --gold-400: #d4af37;
+            --gold-500: #c9a430;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .test-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: var(--gold-400);
+            margin-bottom: 40px;
+            font-size: 32px;
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-secondary {
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 تست کامل سیستم Import با لاگ Real-time</h1>
+        
+        <!-- Quick Import Cards -->
+        <div class="import-grid" style="margin-bottom: 40px;">
+            <!-- Metadata Card -->
+            <div class="import-card">
+                <div class="import-card-icon">
+                    <i class="lni lni-database"></i>
+                </div>
+                <h3 class="import-card-title">متادیتای محصولات</h3>
+                <p class="import-card-description">
+                    ثبت ۱۴ فیلد اضافی محصولات شامل قیمت سنگ، اجرت، کد دفتر، کد طراح و سایر فیلدهای حسابداری
+                </p>
+                <button class="btn btn-primary btn-import" onclick="simulateMetaImport()">
+                    <i class="lni lni-download"></i>
+                    ایمپورت متادیتا
+                </button>
+                <div class="import-result" id="metadata-result"></div>
+            </div>
+            
+            <!-- Attributes Card -->
+            <div class="import-card">
+                <div class="import-card-icon">
+                    <i class="lni lni-tag"></i>
+                </div>
+                <h3 class="import-card-title">ویژگی‌های محصولات</h3>
+                <p class="import-card-description">
+                    ایجاد ۷ ویژگی WooCommerce شامل وزن، وزن پایه، مدل، مجموعه، رنگ، سایز و نرخ وزن
+                </p>
+                <button class="btn btn-primary btn-import" onclick="simulateAttrImport()">
+                    <i class="lni lni-download"></i>
+                    ایمپورت ویژگی‌ها
+                </button>
+                <div class="import-result" id="attributes-result"></div>
+            </div>
+        </div>
+        
+        <!-- Product Import Section -->
+        <div class="import-section">
+            <div class="import-header">
+                <div class="import-header-icon">
+                    <i class="lni lni-cart"></i>
+                </div>
+                <div>
+                    <h3>ایمپورت محصولات</h3>
+                    <p>انتخاب فیلدهای دلخواه برای ایمپورت از API زرگر به WooCommerce</p>
+                </div>
+            </div>
+            
+            <!-- Stats Box -->
+            <div class="import-stats-box">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-label">محصولات موجود در سرور</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-package"></i>
+                            4,583
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">فیلدهای قابل انتخاب</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-list"></i>
+                            36
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-label">دسته‌بندی فیلدها</div>
+                        <div class="stat-card-value">
+                            <i class="lni lni-grid-alt"></i>
+                            9
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Import Logs Section -->
+        <div class="import-logs-section" style="margin-top: 32px;">
+            <div class="logs-header">
+                <h3>
+                    <i class="lni lni-text-format"></i>
+                    لاگ عملیات ایمپورت
+                </h3>
+                <button class="btn btn-secondary btn-small" onclick="clearAllLogs()">
+                    <i class="lni lni-trash"></i>
+                    پاک کردن لاگ‌ها
+                </button>
+            </div>
+            
+            <div class="logs-container" id="import-logs">
+                <div class="logs-empty">
+                    <i class="lni lni-empty-file"></i>
+                    <p>هنوز لاگی ثبت نشده است</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function addLogEntry(message, type = 'info', details = null) {
+            const logDiv = document.getElementById('import-logs');
+            const time = new Date().toLocaleTimeString('fa-IR');
+            
+            // Remove empty state
+            const empty = logDiv.querySelector('.logs-empty');
+            if (empty) {
+                logDiv.innerHTML = '';
+            }
+            
+            const iconMap = {
+                success: 'checkmark-circle',
+                error: 'close-circle',
+                info: 'information',
+                warning: 'warning'
+            };
+            
+            const logHtml = `
+                <div class="log-entry log-${type}">
+                    <span class="log-time">${time}</span>
+                    <span class="log-icon"><i class="lni lni-${iconMap[type]}"></i></span>
+                    <span class="log-message">${message}</span>
+                    ${details ? `<div class="log-details">${details}</div>` : ''}
+                </div>
+            `;
+            
+            logDiv.insertAdjacentHTML('afterbegin', logHtml);
+            logDiv.scrollTop = 0;
+        }
+        
+        function simulateMetaImport() {
+            addLogEntry('شروع ایمپورت متادیتا...', 'info');
+            
+            setTimeout(() => {
+                const fields = [
+                    'قیمت سنگ', 'اجرت', 'مجموع درآمد', 'مجموع مالیات',
+                    'کد قدیمی', 'کد دفتر', 'کد طراح', 'درصد اجرت فروش',
+                    'مبلغ اجرت فروش', 'نوع اجرت فروش', 'اجرت سنگ فروش',
+                    'فیلد اضافی ۱', 'فیلد اضافی ۲', 'مکان'
+                ];
+                
+                addLogEntry(
+                    'ایمپورت ۱۴ فیلد متادیتا با موفقیت انجام شد',
+                    'success',
+                    '<small>• ' + fields.join('<br>• ') + '</small>'
+                );
+                
+                document.getElementById('metadata-result').innerHTML = `
+                    <div class="import-success">
+                        <i class="lni lni-checkmark-circle"></i>
+                        <span>۱۴ فیلد متادیتا ثبت شد</span>
+                    </div>
+                `;
+            }, 2000);
+        }
+        
+        function simulateAttrImport() {
+            addLogEntry('شروع ایمپورت ویژگی‌ها...', 'info');
+            
+            setTimeout(() => {
+                addLogEntry(
+                    'ایمپورت ویژگی‌ها انجام شد: ۵ ایجاد، ۲ موجود',
+                    'success',
+                    '<small>✓ ۵ ویژگی جدید ایجاد شد<br>ℹ ۲ ویژگی قبلاً موجود بود</small>'
+                );
+                
+                document.getElementById('attributes-result').innerHTML = `
+                    <div class="import-success">
+                        <i class="lni lni-checkmark-circle"></i>
+                        <span>۷ ویژگی پردازش شد</span>
+                    </div>
+                    <div class="import-stats">
+                        <div class="stat-item success">
+                            <i class="lni lni-checkmark"></i>
+                            ۵ ایجاد شد
+                        </div>
+                        <div class="stat-item info">
+                            <i class="lni lni-flag"></i>
+                            ۲ موجود بود
+                        </div>
+                    </div>
+                `;
+            }, 1500);
+        }
+        
+        function clearAllLogs() {
+            if (confirm('آیا مطمئن هستید که می‌خواهید تمام لاگ‌ها را پاک کنید؟')) {
+                document.getElementById('import-logs').innerHTML = `
+                    <div class="logs-empty">
+                        <i class="lni lni-empty-file"></i>
+                        <p>هنوز لاگی ثبت نشده است</p>
+                    </div>
+                `;
+                addLogEntry('تمام لاگ‌ها پاک شدند', 'info');
+            }
+        }
+        
+        // تست اولیه
+        setTimeout(() => {
+            addLogEntry('سیستم Import آماده است', 'success');
+            addLogEntry('اتصال به سرور زرگر برقرار شد', 'info');
+        }, 500);
+    </script>
+</body>
+</html>

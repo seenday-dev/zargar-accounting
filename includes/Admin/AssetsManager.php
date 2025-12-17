@@ -102,6 +102,14 @@ class AssetsManager {
                 ['zargar-main'],
                 ZARGAR_ACCOUNTING_VERSION
             );
+            
+            wp_enqueue_script(
+                'zargar-import',
+                ZARGAR_ACCOUNTING_PLUGIN_URL . 'assets/js/import.js',
+                ['jquery', 'zargar-main'],
+                ZARGAR_ACCOUNTING_VERSION,
+                true
+            );
         }
         
         // Logs page - NO AJAX, just simple PHP

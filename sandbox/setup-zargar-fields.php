@@ -20,20 +20,20 @@ register_zargar_attributes();
 
 function register_zargar_meta_fields(): void {
     $metaFields = [
-        ['meta_key' => '_location', 'label' => 'محل نگهداری'],
-        ['meta_key' => '_external_id', 'label' => 'شناسه خارجی'],
-        ['meta_key' => '_stone_price', 'label' => 'قیمت سنگ'],
+        ['meta_key' => 'location', 'label' => 'محل نگهداری'],
+        ['meta_key' => 'external_id', 'label' => 'شناسه خارجی'],
+        ['meta_key' => 'stone_price', 'label' => 'قیمت سنگ'],
         ['meta_key' => 'wage_price', 'label' => 'قیمت اجرت'],
-        ['meta_key' => '_income_total', 'label' => 'جمع درآمد'],
-        ['meta_key' => '_tax_total', 'label' => 'جمع مالیات'],
+        ['meta_key' => 'income_total', 'label' => 'جمع درآمد'],
+        ['meta_key' => 'tax_total', 'label' => 'جمع مالیات'],
         ['meta_key' => 'sale_wage_percent', 'label' => 'درصد اجرت فروش'],
         ['meta_key' => 'sale_wage_price', 'label' => 'مبلغ اجرت فروش'],
         ['meta_key' => 'sale_wage_price_type', 'label' => 'نوع اجرت فروش'],
         ['meta_key' => 'sale_wage_stone', 'label' => 'اجرت سنگ فروش'],
-        ['meta_key' => '_office_code', 'label' => 'کد دفتر'],
-        ['meta_key' => '_designer_code', 'label' => 'کد طراح'],
-        ['meta_key' => '_extra_field_1', 'label' => 'فیلد اضافه ۱'],
-        ['meta_key' => '_extra_field_2', 'label' => 'فیلد اضافه ۲'],
+        ['meta_key' => 'office_code', 'label' => 'کد دفتر'],
+        ['meta_key' => 'designer_code', 'label' => 'کد طراح'],
+        ['meta_key' => 'extra_field_1', 'label' => 'فیلد اضافه ۱'],
+        ['meta_key' => 'extra_field_2', 'label' => 'فیلد اضافه ۲'],
     ];
 
     echo "\n=== متادیتاهای حسابداری زرگر ===\n";

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست AJAX - محیط واقعی WordPress</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ccc;
+        }
+        .status.checking { background: #ffc107; animation: pulse 1s infinite; }
+        .status.success { background: #28a745; }
+        .status.error { background: #dc3545; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .result {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        button:active { transform: translateY(0); }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .error-msg { color: #dc3545; font-weight: bold; }
+        .success-msg { color: #28a745; font-weight: bold; }
+        .info-msg { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 تست سیستم جستجوی محصولات</h1>
+        
+        <div class="test-section">
+            <div class="test-title">
+                <span class="status" id="status-wordpress"></span>
+                وضعیت WordPress
+            </div>
+            <div class="result" id="result-wordpress">در حال بررسی...</div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">
+                <span class="status" id="status-plugin"></span>
+                وضعیت پلاگین
+            </div>
+            <div class="result" id="result-plugin">در حال بررسی...</div>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">
+                <span class="status" id="status-ajax"></span>
+                تست AJAX Handler
+            </div>
+            <div class="result" id="result-ajax">در حال بررسی...</div>
+        </div>
+        
+        <div class="input-group">
+            <label>کدهای محصول (جدا شده با کاما):</label>
+            <input type="text" id="product-codes" value="GD01000316,GD01000315" placeholder="GD01000316,GD01000315">
+        </div>
+        
+        <button id="test-search" onclick="testSearch()">🔍 تست جستجو</button>
+        
+        <div class="test-section" id="search-results" style="display: none; margin-top: 20px;">
+            <div class="test-title">
+                <span class="status" id="status-search"></span>
+                نتیجه جستجو
+            </div>
+            <div class="result" id="result-search"></div>
+        </div>
+    </div>
+
+    <script>
+        // این باید توسط WordPress لود بشه
+        const ajaxurl = '/wp-admin/admin-ajax.php'; // باید از طریق wp_localize_script تنظیم بشه
+        
+        // بررسی WordPress
+        fetch(window.location.href)
+            .then(r => r.text())
+            .then(html => {
+                const hasWP = html.includes('wp-content') || html.includes('wordpress');
+                document.getElementById('status-wordpress').className = hasWP ? 'status success' : 'status error';
+                document.getElementById('result-wordpress').innerHTML = hasWP 
+                    ? '<span class="success-msg">✓ WordPress تشخیص داده شد</span>'
+                    : '<span class="error-msg">✗ WordPress یافت نشد - این فایل باید در محیط WordPress باشد</span>';
+            });
+        
+        // بررسی پلاگین
+        fetch('/wp-admin/admin-ajax.php?action=zargar_get_import_stats')
+            .then(r => r.json())
+            .then(data => {
+                const isActive = data && !data.error;
+                document.getElementById('status-plugin').className = isActive ? 'status success' : 'status error';
+                document.getElementById('result-plugin').innerHTML = isActive
+                    ? '<span class="success-msg">✓ پلاگین فعال است</span>'
+                    : '<span class="error-msg">✗ پلاگین غیرفعال است یا AJAX handler ثبت نشده</span>';
+            })
+            .catch(e => {
+                document.getElementById('status-plugin').className = 'status error';
+                document.getElementById('result-plugin').innerHTML = '<span class="error-msg">✗ خطا در ارتباط با سرور: ' + e.message + '</span>';
+            });
+        
+        // بررسی AJAX handler
+        fetch('/wp-admin/admin-ajax.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=zargar_search_products'
+        })
+            .then(r => r.json())
+            .then(data => {
+                const exists = data && data.success === false; // اگه بگه failed یعنی handler وجود داره
+                document.getElementById('status-ajax').className = exists ? 'status success' : 'status error';
+                document.getElementById('result-ajax').innerHTML = exists
+                    ? '<span class="success-msg">✓ AJAX Handler یافت شد</span>\n' + JSON.stringify(data, null, 2)
+                    : '<span class="error-msg">✗ AJAX Handler یافت نشد</span>';
+            })
+            .catch(e => {
+                document.getElementById('status-ajax').className = 'status error';
+                document.getElementById('result-ajax').innerHTML = '<span class="error-msg">✗ خطا: ' + e.message + '</span>';
+            });
+        
+        function testSearch() {
+            const codes = document.getElementById('product-codes').value.trim();
+            if (!codes) {
+                alert('لطفاً کدهای محصول را وارد کنید');
+                return;
+            }
+            
+            const codesArray = codes.split(',').map(c => c.trim()).filter(c => c);
+            
+            document.getElementById('search-results').style.display = 'block';
+            document.getElementById('status-search').className = 'status checking';
+            document.getElementById('result-search').innerHTML = 'در حال جستجو...';
+            document.getElementById('test-search').disabled = true;
+            
+            fetch('/wp-admin/admin-ajax.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'zargar_search_products',
+                    codes: JSON.stringify(codesArray),
+                    nonce: 'test' // در محیط واقعی باید nonce واقعی استفاده بشه
+                })
+            })
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('test-search').disabled = false;
+                    if (data && data.success) {
+                        document.getElementById('status-search').className = 'status success';
+                        document.getElementById('result-search').innerHTML = 
+                            '<span class="success-msg">✓ ' + data.data.total + ' محصول یافت شد</span>\n\n' +
+                            JSON.stringify(data.data.products, null, 2);
+                    } else {
+                        document.getElementById('status-search').className = 'status error';
+                        document.getElementById('result-search').innerHTML = 
+                            '<span class="error-msg">✗ خطا: ' + (data.data ? data.data.message : 'نامشخص') + '</span>\n\n' +
+                            JSON.stringify(data, null, 2);
+                    }
+                })
+                .catch(e => {
+                    document.getElementById('test-search').disabled = false;
+                    document.getElementById('status-search').className = 'status error';
+                    document.getElementById('result-search').innerHTML = '<span class="error-msg">✗ خطای شبکه: ' + e.message + '</span>';
+                });
+        }
+    </script>
+</body>
+</html>
